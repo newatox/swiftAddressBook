@@ -31,10 +31,29 @@ class ContactsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Import names from plist
+        let namesPlist = Bundle.main.path(forResource: "names.plist", ofType: nil)
+        if let namesPath = namesPlist {
+            let url = URL(fileURLWithPath: namesPath)
+            let dataArray  = NSArray(contentsOf: url)
+            //print(dataArray)
+            
+            for dict in dataArray! {
+                if let dictionnary = dict as? [String: String] {
+                    
+                    let person = Person(firstName: dictionnary["name"]!, lastName: dictionnary["lastname"]!)
+                    persons.append(person)
+                    //print(dictionnary)
+                }
+            }
+        }
+        
         self.title = "Contacts"
         persons.append(Person(firstName: "Michel", lastName: "Durand"))
         persons.append(Person(firstName: "Marc", lastName: "Dupont"))
         persons.append(Person(firstName: "Marie", lastName: "Martin"))
+        
+        
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
         // Uncomment the following line to preserve selection between presentations
