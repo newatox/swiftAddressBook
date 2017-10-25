@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddViewController" customModule="AddressBookSwift4" customModuleProvider="target">
             <connections>
+                <outlet property="completionProgressBar" destination="9k7-si-otc" id="l8e-P0-PZT"/>
                 <outlet property="firstNameTextField" destination="RMk-jr-2Fr" id="koB-Lh-Hna"/>
                 <outlet property="lastNameTextField" destination="1Gp-Kk-jIt" id="NVi-Cy-8ux"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -51,17 +52,23 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9k7-si-otc">
+                    <rect key="frame" x="50" y="40" width="220" height="2"/>
+                </progressView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RMk-jr-2Fr" secondAttribute="trailing" id="29Z-VN-izm"/>
+                <constraint firstItem="9k7-si-otc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="E6y-6C-YRU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="1Gp-Kk-jIt" secondAttribute="trailing" id="GJv-8W-era"/>
                 <constraint firstItem="RMk-jr-2Fr" firstAttribute="top" secondItem="0gU-5t-NHJ" secondAttribute="top" id="Gpr-5P-GNp"/>
+                <constraint firstItem="9k7-si-otc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="MER-6f-Op5"/>
                 <constraint firstItem="RMk-jr-2Fr" firstAttribute="leading" secondItem="0gU-5t-NHJ" secondAttribute="trailing" id="SlQ-fl-LuL"/>
                 <constraint firstItem="cmc-3K-kgD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Z7B-Nf-cKs"/>
                 <constraint firstItem="1Gp-Kk-jIt" firstAttribute="leading" secondItem="cmc-3K-kgD" secondAttribute="trailing" id="hqE-lv-OcS"/>
                 <constraint firstItem="0gU-5t-NHJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="k4D-Wr-DMe"/>
                 <constraint firstItem="1Gp-Kk-jIt" firstAttribute="top" secondItem="cmc-3K-kgD" secondAttribute="top" id="lCK-jY-G4I"/>
+                <constraint firstAttribute="trailing" secondItem="9k7-si-otc" secondAttribute="trailing" constant="50" id="nln-aF-UuW"/>
                 <constraint firstItem="0gU-5t-NHJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="rNJ-qu-KZx"/>
                 <constraint firstItem="cmc-3K-kgD" firstAttribute="top" secondItem="0gU-5t-NHJ" secondAttribute="bottom" constant="25" id="rTZ-xw-6b7"/>
             </constraints>

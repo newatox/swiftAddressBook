@@ -16,6 +16,7 @@ class AddViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     
+    @IBOutlet weak var completionProgressBar: UIProgressView!
     
     weak var delegate: AddViewControllerDelegate?
     
@@ -34,9 +35,21 @@ class AddViewController: UIViewController {
             return
         }
         
-        self.delegate?.addPersonName(firstName: newContactFirstName, lastName: newContactLastName)
+        self.completionProgressBar.alpha = 1
+        DispatchQueue.global(qos: .background).async {
+            for _ in 0..<100 {
+                DispatchQueue.main.async {
+                    self.completionProgressBar.setProgress(self.completionProgressBar.progress + 0.01, animated: true)
+                }
+                Thread.sleep(forTimeInterval: 0.05)
+            }
+            
+            DispatchQueue.main.async {
+                self.delegate?.addPersonName(firstName: newContactFirstName, lastName: newContactLastName)
+            }
+        }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
