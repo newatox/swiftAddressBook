@@ -8,13 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		5101DA321FA07ED100199E90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA311FA07ED100199E90 /* AppDelegate.swift */; };
-		5101DA341FA07ED100199E90 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA331FA07ED100199E90 /* ViewController.swift */; };
 		5101DA371FA07ED200199E90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5101DA351FA07ED200199E90 /* Main.storyboard */; };
 		5101DA3A1FA07ED200199E90 /* AddressBookSwift4.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA381FA07ED200199E90 /* AddressBookSwift4.xcdatamodeld */; };
 		5101DA3C1FA07ED200199E90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5101DA3B1FA07ED200199E90 /* Assets.xcassets */; };
 		5101DA3F1FA07ED200199E90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5101DA3D1FA07ED200199E90 /* LaunchScreen.storyboard */; };
 		5101DA4A1FA07ED200199E90 /* AddressBookSwift4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA491FA07ED200199E90 /* AddressBookSwift4Tests.swift */; };
 		5101DA551FA07ED200199E90 /* AddressBookSwift4UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA541FA07ED200199E90 /* AddressBookSwift4UITests.swift */; };
+		5101DA671FA07FE000199E90 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */; };
+		51EFD1391FA081C6006D4A22 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD1381FA081C6006D4A22 /* ContactTableViewCell.swift */; };
+		51EFD13C1FA08ED5006D4A22 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD13A1FA08ED5006D4A22 /* AddViewController.swift */; };
+		51EFD13D1FA08ED5006D4A22 /* AddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51EFD13B1FA08ED5006D4A22 /* AddViewController.xib */; };
+		51EFD1401FA09EF1006D4A22 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD13E1FA09EF1006D4A22 /* DetailsViewController.swift */; };
+		51EFD1411FA09EF1006D4A22 /* DetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51EFD13F1FA09EF1006D4A22 /* DetailsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +42,6 @@
 /* Begin PBXFileReference section */
 		5101DA2E1FA07ED100199E90 /* AddressBookSwift4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddressBookSwift4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5101DA311FA07ED100199E90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5101DA331FA07ED100199E90 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5101DA361FA07ED200199E90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5101DA391FA07ED200199E90 /* AddressBookSwift4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AddressBookSwift4.xcdatamodel; sourceTree = "<group>"; };
 		5101DA3B1FA07ED200199E90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +53,12 @@
 		5101DA501FA07ED200199E90 /* AddressBookSwift4UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AddressBookSwift4UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5101DA541FA07ED200199E90 /* AddressBookSwift4UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookSwift4UITests.swift; sourceTree = "<group>"; };
 		5101DA561FA07ED200199E90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
+		51EFD1381FA081C6006D4A22 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		51EFD13A1FA08ED5006D4A22 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		51EFD13B1FA08ED5006D4A22 /* AddViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddViewController.xib; sourceTree = "<group>"; };
+		51EFD13E1FA09EF1006D4A22 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		51EFD13F1FA09EF1006D4A22 /* DetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +110,17 @@
 			isa = PBXGroup;
 			children = (
 				5101DA311FA07ED100199E90 /* AppDelegate.swift */,
-				5101DA331FA07ED100199E90 /* ViewController.swift */,
 				5101DA351FA07ED200199E90 /* Main.storyboard */,
 				5101DA3B1FA07ED200199E90 /* Assets.xcassets */,
+				5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */,
+				51EFD1381FA081C6006D4A22 /* ContactTableViewCell.swift */,
 				5101DA3D1FA07ED200199E90 /* LaunchScreen.storyboard */,
 				5101DA401FA07ED200199E90 /* Info.plist */,
 				5101DA381FA07ED200199E90 /* AddressBookSwift4.xcdatamodeld */,
+				51EFD13A1FA08ED5006D4A22 /* AddViewController.swift */,
+				51EFD13E1FA09EF1006D4A22 /* DetailsViewController.swift */,
+				51EFD13F1FA09EF1006D4A22 /* DetailsViewController.xib */,
+				51EFD13B1FA08ED5006D4A22 /* AddViewController.xib */,
 			);
 			path = AddressBookSwift4;
 			sourceTree = "<group>";
@@ -237,6 +252,8 @@
 			files = (
 				5101DA3F1FA07ED200199E90 /* LaunchScreen.storyboard in Resources */,
 				5101DA3C1FA07ED200199E90 /* Assets.xcassets in Resources */,
+				51EFD1411FA09EF1006D4A22 /* DetailsViewController.xib in Resources */,
+				51EFD13D1FA08ED5006D4A22 /* AddViewController.xib in Resources */,
 				5101DA371FA07ED200199E90 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,9 +279,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5101DA341FA07ED100199E90 /* ViewController.swift in Sources */,
+				51EFD13C1FA08ED5006D4A22 /* AddViewController.swift in Sources */,
+				51EFD1391FA081C6006D4A22 /* ContactTableViewCell.swift in Sources */,
 				5101DA3A1FA07ED200199E90 /* AddressBookSwift4.xcdatamodeld in Sources */,
 				5101DA321FA07ED100199E90 /* AppDelegate.swift in Sources */,
+				5101DA671FA07FE000199E90 /* ContactsTableViewController.swift in Sources */,
+				51EFD1401FA09EF1006D4A22 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
