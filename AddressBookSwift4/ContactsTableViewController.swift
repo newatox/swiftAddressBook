@@ -18,6 +18,12 @@ class Person {
     }
 }
 
+extension Person: Equatable {
+    public static func ==(lhs: Person, rhs: Person) -> Bool {
+        return (lhs.firstName == rhs.firstName) && (lhs.lastName == rhs.lastName)
+    }
+}
+
 class ContactsTableViewController: UITableViewController {
     
     var persons = [Person]()
@@ -50,7 +56,16 @@ class ContactsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailsViewController = DetailsViewController(
+        let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
+        detailsViewController.title = "Details"
+        detailsViewController.firstName = persons[indexPath.row].firstName
+        detailsViewController.lastName = persons[indexPath.row].lastName
+        
+        detailsViewController.delegate = self
+        
+        
+        self.navigationController?.pushViewController(detailsViewController, animated: true)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -137,4 +152,14 @@ extension ContactsTableViewController: AddViewControllerDelegate {
         self.navigationController?.popViewController(animated: true)
         self.tableView.reloadData()
     }
+}
+
+extension ContactsTableViewController: DetailsViewControllerDelegate {
+    func deleteContact(firstName: String, lastName: String) {
+        let contactToDelete = Person(firstName: firstName, lastName: lastName)
+        persons = persons.filter({$0 != contactToDelete})
+        self.navigationController?.popViewController(animated: true)
+        self.tableView.reloadData()
+    }
+
 }

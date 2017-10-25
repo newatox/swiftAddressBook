@@ -17,16 +17,7 @@ class AddViewController: UIViewController {
     @IBOutlet weak var lastNameTextField: UITextField!
     
     
-    
     weak var delegate: AddViewControllerDelegate?
-    
-    @IBAction func onButtonAddPressed(_ sender: Any) {
-        guard let newContactFirstName = firstNameTextField?.text, let newContactLastName = lastNameTextField?.text else {
-            return
-        }
-        self.delegate?.addPersonName(firstName: newContactFirstName, lastName: newContactLastName)
-        
-    }
     
     
     override func viewDidLoad() {
@@ -39,7 +30,11 @@ class AddViewController: UIViewController {
     }
     
     @objc func addContactToList() {
-        onButtonAddPressed(self)
+        guard let newContactFirstName = firstNameTextField?.text, let newContactLastName = lastNameTextField?.text else {
+            return
+        }
+        
+        self.delegate?.addPersonName(firstName: newContactFirstName, lastName: newContactLastName)
     }
 
     override func didReceiveMemoryWarning() {
