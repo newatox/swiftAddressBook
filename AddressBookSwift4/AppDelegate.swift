@@ -78,23 +78,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error)
         }
     }
-    /*
+/*
     func putContactOnServer(person: Person) {
         let url = URL(string: sourceURL)!
         var request = URLRequest(url: url)
+        let jsonPerson: [String : Any]
+        jsonPerson["lastname"] = person.lastName
+        jsonPerson["surname"] = person.firstName
+        //jsonPerson["pictureUrl"] = person.avatarURL
+        //jsonPerson["id"] = Int(person.id)
         request.httpMethod = "POST"
-        // request.httpBody
+        request.httpBody = try! JSONSerialization.data(withJSONObject: jsonPerson, options: .prettyPrinted)
+        request.setValue("application.json", forHTTPHeaderField: "Content-type")
         let task = URLSession.shared.dataTask(with: request) {
-            let jsonPerson: [String : Any]
-            jsonPerson.
-            
-            
             do {
-                let requestJson = try JSONSerialization.jsonObject(with: <#T##Data#>, options: <#T##JSONSerialization.ReadingOptions#>)
+                let requestJson = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
+                
             }
         }
      }
-        */
+*/
         
     
 
