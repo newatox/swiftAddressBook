@@ -90,7 +90,7 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
         detailsViewController.title = "Details"
-        //TODO
+        detailsViewController.currentPerson = persons[indexPath.row]
 
         detailsViewController.delegate = self
         self.navigationController?.pushViewController(detailsViewController, animated: true)
@@ -189,9 +189,7 @@ extension ContactsTableViewController: AddViewControllerDelegate {
 
 extension ContactsTableViewController: DetailsViewControllerDelegate {
     
-    func deleteContact(firstName: String, lastName: String) {
-        //TODO
-        
+    func reloadCList() {
         self.navigationController?.popViewController(animated: true)
         reloadDataFromDataBase()
     }

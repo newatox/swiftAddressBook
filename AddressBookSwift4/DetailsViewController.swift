@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DetailsViewControllerDelegate: AnyObject {
-    func deleteContact(firstName: String, lastName: String)
+    func reloadCList()
 
 }
 
@@ -18,25 +18,31 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var lastNameLabel: UILabel!
     
     weak var delegate: DetailsViewControllerDelegate?
-    var firstName: String?
-    var lastName: String?
+    var currentPerson: Person?
     
     func updateLabels() {
-        firstNameLabel.text = firstName
-        lastNameLabel.text = lastName
+        guard let person = currentPerson else {
+            return
+        }
+        firstNameLabel.text = person.firstName
+        lastNameLabel.text = person.lastName
     }
     
     @objc func deleteContact() {
-        guard let firstName = self.firstName, let lastName = self.lastName else {
-            return
-        }
         let deleteAlertController = UIAlertController(title: "Delete Alert", message: "Are you sure you want to delete this contact ?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             return
         }
         deleteAlertController.addAction(cancelAction)
         let OKAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.delegate?.deleteContact(firstName: firstName, lastName: lastName)
+            let context = self.appDelegate().persistentContainer.viewContext
+            guard let personToDelete = self.currentPerson else {
+                return
+            }
+            context.delete(personToDelete)
+            try? context.save()
+            self.delegate?.reloadCList()
+            
         }
         deleteAlertController.addAction(OKAction)
         
