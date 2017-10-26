@@ -12,7 +12,6 @@ import CoreData
 class ContactsTableViewController: UITableViewController {
     var persons = [Person]()
     
-    
     func reloadDataFromDataBase() {
         let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
         let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
@@ -20,13 +19,11 @@ class ContactsTableViewController: UITableViewController {
         fetchRequest.sortDescriptors = [sortFirstName, sortLastName]
         
         let context = self.appDelegate().persistentContainer.viewContext
-        
-        //print(try? context.fetch(fetchRequest))
         guard let personsList = try? context.fetch(fetchRequest) else {
             return
         }
         persons = personsList
-        
+        self.tableView.reloadData()
     }
     
     func addFromPlist() {
@@ -38,13 +35,10 @@ class ContactsTableViewController: UITableViewController {
             
             for dict in dataArray! {
                 if let dictionnary = dict as? [String: String] {
-                    
-                    
                     let context = appDelegate().persistentContainer.viewContext
                     let person = Person(entity: Person.entity(), insertInto: context)
                     person.firstName = dictionnary["name"]
                     person.lastName = dictionnary["lastname"]
-                    
                     do {
                         try context.save()
                     } catch {
@@ -74,8 +68,6 @@ class ContactsTableViewController: UITableViewController {
         reloadDataFromDataBase()
         self.title = "Contacts"
 
-        
-        
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
         // Uncomment the following line to preserve selection between presentations
@@ -92,21 +84,16 @@ class ContactsTableViewController: UITableViewController {
         let addViewController = AddViewController(nibName: nil, bundle: nil)
         addViewController.title = "Add User"
         addViewController.delegate = self
-        
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
         detailsViewController.title = "Details"
-        //detailsViewController.firstName = persons[indexPath.row].firstName
-        //detailsViewController.lastName = persons[indexPath.row].lastName
-        
+        //TODO
+
         detailsViewController.delegate = self
-        
-        
         self.navigationController?.pushViewController(detailsViewController, animated: true)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -194,16 +181,19 @@ class ContactsTableViewController: UITableViewController {
 }
 
 extension ContactsTableViewController: AddViewControllerDelegate {
-
+    func reloadContactList() {
+        self.navigationController?.popViewController(animated: true)
+        reloadDataFromDataBase()
+    }
 }
 
 extension ContactsTableViewController: DetailsViewControllerDelegate {
     
     func deleteContact(firstName: String, lastName: String) {
-        //let contactToDelete = Person(firstName: firstName, lastName: lastName)
-        //persons = persons.filter({$0 != contactToDelete})
+        //TODO
+        
         self.navigationController?.popViewController(animated: true)
-        self.tableView.reloadData()
+        reloadDataFromDataBase()
     }
  
 

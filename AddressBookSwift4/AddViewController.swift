@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddViewControllerDelegate: AnyObject {
-    //func addPersonName(firstName: String, lastName: String)
+    func reloadContactList()
 }
 
 class AddViewController: UIViewController {
@@ -39,12 +39,12 @@ class AddViewController: UIViewController {
         }
         
         self.completionProgressBar.alpha = 1
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             for _ in 0..<100 {
                 DispatchQueue.main.async {
                     self.completionProgressBar.setProgress(self.completionProgressBar.progress + 0.01, animated: true)
                 }
-                Thread.sleep(forTimeInterval: 0.05)
+                Thread.sleep(forTimeInterval: 0.01)
             }
             
             DispatchQueue.main.async {
@@ -58,7 +58,7 @@ class AddViewController: UIViewController {
                 } catch {
                     print(error.localizedDescription)
                 }
-                self.navigationController?.popViewController(animated: true)
+                self.delegate?.reloadContactList()
             }
         }
     }
