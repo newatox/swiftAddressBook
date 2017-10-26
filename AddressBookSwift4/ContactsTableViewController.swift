@@ -10,8 +10,10 @@ import UIKit
 import CoreData
 
 class ContactsTableViewController: UITableViewController {
-    var persons = [Person]()
+    //var persons = [Person]()
+    var resultController: NSFetchedResultsController<Person>?
     
+    /*
     func reloadDataFromDataBase() {
         let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
         let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
@@ -25,6 +27,7 @@ class ContactsTableViewController: UITableViewController {
         persons = personsList
         self.tableView.reloadData()
     }
+    */
     
     func addFromPlist() {
         //Import names from plist
@@ -45,7 +48,7 @@ class ContactsTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     }
                 }
-                reloadDataFromDataBase()
+                //reloadDataFromDataBase()
             }
         }
     }
@@ -65,8 +68,26 @@ class ContactsTableViewController: UITableViewController {
         }
         UserDefaults.standard.userSawWelcomeMessage()
         
-        reloadDataFromDataBase()
+        
+        
+        let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
+        let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
+        let sortLastName = NSSortDescriptor(key: "lastName", ascending: true)
+        fetchRequest.sortDescriptors = [sortFirstName, sortLastName]
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.appDelegate().persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        
+        frc.delegate = self
+        
+        try? frc.performFetch()
+        
+        self.resultController = frc
+        
+        //reloadDataFromDataBase()
         self.title = "Contacts"
+        
+        
 
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
@@ -90,7 +111,11 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
         detailsViewController.title = "Details"
-        detailsViewController.currentPerson = persons[indexPath.row]
+        //detailsViewController.currentPerson = persons[indexPath.row]
+        guard let object = self.resultController?.object(at: indexPath) else {
+            fatalError("Attempt to configure cell without a managed object")
+        }
+        detailsViewController.currentPerson = object
 
         detailsViewController.delegate = self
         self.navigationController?.pushViewController(detailsViewController, animated: true)
@@ -105,12 +130,19 @@ class ContactsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        if let frc = self.resultController {
+            return frc.sections!.count
+        }
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return persons.count
+        guard let sections = self.resultController?.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
         
     }
 
@@ -119,8 +151,11 @@ class ContactsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath)
 
         // Configure the cell...
+        guard let object = self.resultController?.object(at: indexPath) else {
+            fatalError("Attempt to configure cell without a managed object")
+        }
         if let contactCell = cell as? ContactTableViewCell {
-            guard let firstName = persons[indexPath.row].firstName, let lastName = persons[indexPath.row].lastName else {
+            guard let firstName = object.firstName, let lastName = object.lastName else {
                 return cell
             }
             contactCell.nameLabel.text = firstName + " " + lastName
@@ -183,16 +218,20 @@ class ContactsTableViewController: UITableViewController {
 extension ContactsTableViewController: AddViewControllerDelegate {
     func reloadContactList() {
         self.navigationController?.popViewController(animated: true)
-        reloadDataFromDataBase()
+        //reloadDataFromDataBase()
     }
 }
 
 extension ContactsTableViewController: DetailsViewControllerDelegate {
-    
     func reloadCList() {
         self.navigationController?.popViewController(animated: true)
-        reloadDataFromDataBase()
+        //reloadDataFromDataBase()
     }
- 
+}
+
+extension ContactsTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
+    }
 
 }
