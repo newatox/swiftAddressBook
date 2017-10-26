@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddViewControllerDelegate: AnyObject {
-    func addPersonName(firstName: String, lastName: String)
+    //func addPersonName(firstName: String, lastName: String)
 }
 
 class AddViewController: UIViewController {
@@ -34,6 +34,9 @@ class AddViewController: UIViewController {
         guard let newContactFirstName = firstNameTextField?.text, let newContactLastName = lastNameTextField?.text else {
             return
         }
+        if newContactLastName == "" && newContactFirstName == "" {
+            return
+        }
         
         self.completionProgressBar.alpha = 1
         DispatchQueue.global(qos: .background).async {
@@ -45,7 +48,17 @@ class AddViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                self.delegate?.addPersonName(firstName: newContactFirstName, lastName: newContactLastName)
+                let context = self.appDelegate().persistentContainer.viewContext
+                let person = Person(entity: Person.entity(), insertInto: context)
+                person.firstName = newContactFirstName
+                person.lastName = newContactLastName
+                
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

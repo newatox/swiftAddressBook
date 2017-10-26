@@ -7,51 +7,73 @@
 //
 
 import UIKit
-
-class Person {
-    var firstName: String
-    var lastName: String
-    
-    init(firstName: String, lastName: String) {
-        self.firstName = firstName
-        self.lastName = lastName
-    }
-}
-
-extension Person: Equatable {
-    public static func ==(lhs: Person, rhs: Person) -> Bool {
-        return (lhs.firstName == rhs.firstName) && (lhs.lastName == rhs.lastName)
-    }
-}
+import CoreData
 
 class ContactsTableViewController: UITableViewController {
-    
     var persons = [Person]()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    
+    func reloadDataFromDataBase() {
+        let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
+        let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
+        let sortLastName = NSSortDescriptor(key: "lastName", ascending: true)
+        fetchRequest.sortDescriptors = [sortFirstName, sortLastName]
         
+        let context = self.appDelegate().persistentContainer.viewContext
+        
+        //print(try? context.fetch(fetchRequest))
+        guard let personsList = try? context.fetch(fetchRequest) else {
+            return
+        }
+        persons = personsList
+        
+    }
+    
+    func addFromPlist() {
         //Import names from plist
         let namesPlist = Bundle.main.path(forResource: "names.plist", ofType: nil)
         if let namesPath = namesPlist {
             let url = URL(fileURLWithPath: namesPath)
             let dataArray  = NSArray(contentsOf: url)
-            //print(dataArray)
             
             for dict in dataArray! {
                 if let dictionnary = dict as? [String: String] {
                     
-                    let person = Person(firstName: dictionnary["name"]!, lastName: dictionnary["lastname"]!)
-                    persons.append(person)
-                    //print(dictionnary)
+                    
+                    let context = appDelegate().persistentContainer.viewContext
+                    let person = Person(entity: Person.entity(), insertInto: context)
+                    person.firstName = dictionnary["name"]
+                    person.lastName = dictionnary["lastname"]
+                    
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
+                reloadDataFromDataBase()
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        //Welcome message
+        if(UserDefaults.standard.isFirstLaunch()) {
+            let welcomeAlertController = UIAlertController(title: "Welcome", message: "This is your first time here. Welcome!", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default) { _ in
+                return
+            }
+            welcomeAlertController.addAction(OKAction)
+            self.present(welcomeAlertController, animated: true) {
+            }
+        }
+        UserDefaults.standard.userSawWelcomeMessage()
+        
+        reloadDataFromDataBase()
         self.title = "Contacts"
-        persons.append(Person(firstName: "Michel", lastName: "Durand"))
-        persons.append(Person(firstName: "Marc", lastName: "Dupont"))
-        persons.append(Person(firstName: "Marie", lastName: "Martin"))
+
         
         
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
@@ -77,8 +99,8 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
         detailsViewController.title = "Details"
-        detailsViewController.firstName = persons[indexPath.row].firstName
-        detailsViewController.lastName = persons[indexPath.row].lastName
+        //detailsViewController.firstName = persons[indexPath.row].firstName
+        //detailsViewController.lastName = persons[indexPath.row].lastName
         
         detailsViewController.delegate = self
         
@@ -102,6 +124,7 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return persons.count
+        
     }
 
     
@@ -109,11 +132,12 @@ class ContactsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath)
 
         // Configure the cell...
-
         if let contactCell = cell as? ContactTableViewCell {
-            contactCell.nameLabel.text = persons[indexPath.row].firstName + " " + persons[indexPath.row].lastName
+            guard let firstName = persons[indexPath.row].firstName, let lastName = persons[indexPath.row].lastName else {
+                return cell
+            }
+            contactCell.nameLabel.text = firstName + " " + lastName
         }
-        
         return cell
     }
     
@@ -135,6 +159,10 @@ class ContactsTableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
 
@@ -166,19 +194,17 @@ class ContactsTableViewController: UITableViewController {
 }
 
 extension ContactsTableViewController: AddViewControllerDelegate {
-    func addPersonName(firstName: String, lastName: String) {
-        self.persons.append(Person(firstName: firstName, lastName: lastName))
-        self.navigationController?.popViewController(animated: true)
-        self.tableView.reloadData()
-    }
+
 }
 
 extension ContactsTableViewController: DetailsViewControllerDelegate {
+    
     func deleteContact(firstName: String, lastName: String) {
-        let contactToDelete = Person(firstName: firstName, lastName: lastName)
-        persons = persons.filter({$0 != contactToDelete})
+        //let contactToDelete = Person(firstName: firstName, lastName: lastName)
+        //persons = persons.filter({$0 != contactToDelete})
         self.navigationController?.popViewController(animated: true)
         self.tableView.reloadData()
     }
+ 
 
 }
