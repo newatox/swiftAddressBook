@@ -53,6 +53,12 @@ class ContactsTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        appDelegate().updateDataFromServer()
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,9 +73,6 @@ class ContactsTableViewController: UITableViewController {
             }
         }
         UserDefaults.standard.userSawWelcomeMessage()
-        
-        
-        
         let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
         let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
         let sortLastName = NSSortDescriptor(key: "lastName", ascending: true)
@@ -86,8 +89,6 @@ class ContactsTableViewController: UITableViewController {
         
         //reloadDataFromDataBase()
         self.title = "Contacts"
-        
-        
 
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
@@ -99,6 +100,16 @@ class ContactsTableViewController: UITableViewController {
         
         let addContact = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addContactPress))
         self.navigationItem.rightBarButtonItem = addContact
+        
+        /*
+        let dataURL = URL(string: appDelegate().sourceURL)
+        let task = URLSession.shared.dataTask(with: dataURL!) {(data, response, error) in
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue) as Any)
+        }
+        task.resume()
+        */
+        
+        
     }
     
     @objc func addContactPress() {

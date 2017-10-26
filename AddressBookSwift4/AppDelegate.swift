@@ -11,9 +11,92 @@ import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
+    let sourceURL = "http://192.168.116.2:3000/persons"
 
+    
+    func updateDataFromServer() {
+        let url = URL(string: sourceURL)!
+        let task = URLSession.shared.dataTask(with:url) { (data, response, error) in
+            guard let data = data else {
+                return
+            }
+            
+            let dictionnary = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
+            guard let jsonDict = dictionnary as? [[String : Any]] else {
+                return
+            }
+            
+            self.updateFromJsonData(json: jsonDict)
+            
+        }
+        task.resume()
+    }
+    
+    func updateFromJsonData(json: [[String : Any]]) {
+        let sort = NSSortDescriptor(key: "id", ascending: true)
+        let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
+        fetchRequest.sortDescriptors = [sort]
+        
+        let context = self.persistentContainer.viewContext
+        
+        
+        let persons = try! context.fetch(fetchRequest)
+        let personIds = persons.map({ (person) -> Int32 in
+            return person.id
+        })
+        
+        let serversId = json.map { (dict) -> Int in
+            return dict["id"] as? Int ?? 0
+        }
+        //Delete data that is not on server
+        for person in persons {
+            if !serversId.contains(Int(person.id)) {
+                context.delete(person)
+            }
+        }
+        // Update or create
+        for jsonPerson in json {
+            let id = jsonPerson["id"] as? Int ?? 0
+            if let index = personIds.index(of: Int32(id)) {
+                persons[index].lastName = jsonPerson["lastname"] as? String ?? "ERROR"
+                persons[index].firstName = jsonPerson["surname"] as? String ?? "ERROR"
+                persons[index].avatarURL = jsonPerson["pictureUrl"] as? String
+            } else {
+                let person = Person(context: context)
+                person.lastName = jsonPerson["lastname"] as? String
+                person.firstName = jsonPerson["surname"] as? String
+                person.avatarURL = jsonPerson["pictureUrl"] as? String
+                person.id = Int32(id)
+            }
+        }
+        do {
+            if context.hasChanges {
+                try context.save()
+            }
+        } catch {
+                print(error)
+        }
+    }
+    /*
+    func putContactOnServer(person: Person) {
+        let url = URL(string: sourceURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        // request.httpBody
+        let task = URLSession.shared.dataTask(with: request) {
+            let jsonPerson: [String : Any]
+            jsonPerson.
+            
+            
+            do {
+                let requestJson = try JSONSerialization.jsonObject(with: <#T##Data#>, options: <#T##JSONSerialization.ReadingOptions#>)
+            }
+        }
+     }
+        */
+        
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -88,8 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
+
 
 extension UIViewController {
     func appDelegate() -> AppDelegate {
