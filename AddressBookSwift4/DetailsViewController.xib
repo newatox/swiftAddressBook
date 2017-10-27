@@ -24,18 +24,24 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PF0-B8-v7d">
                     <rect key="frame" x="0.0" y="176" width="320" height="19.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="19.5" id="H0c-F9-mfC"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Frf-2a-TVh">
                     <rect key="frame" x="0.0" y="120" width="320" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="bZf-mK-m4P"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="moN-VY-XQL">
-                    <rect key="frame" x="50" y="265.5" width="220" height="232.5"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noImage.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="moN-VY-XQL">
+                    <rect key="frame" x="50" y="245.5" width="220" height="252.5"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -48,11 +54,14 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="PF0-B8-v7d" secondAttribute="trailing" id="goa-BV-ikH"/>
                 <constraint firstItem="Frf-2a-TVh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="kL8-Ti-nxy"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="moN-VY-XQL" secondAttribute="trailing" constant="50" id="pbo-hh-9Wu"/>
-                <constraint firstItem="moN-VY-XQL" firstAttribute="top" secondItem="PF0-B8-v7d" secondAttribute="bottom" constant="70" id="soJ-DR-3I0"/>
+                <constraint firstItem="moN-VY-XQL" firstAttribute="top" secondItem="PF0-B8-v7d" secondAttribute="bottom" constant="50" id="soJ-DR-3I0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Frf-2a-TVh" secondAttribute="trailing" id="xMq-hc-0yb"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="24.5" y="51.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="noImage.jpeg" width="1250" height="830"/>
+    </resources>
 </document>

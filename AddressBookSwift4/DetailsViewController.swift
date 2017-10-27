@@ -8,17 +8,11 @@
 
 import UIKit
 
-protocol DetailsViewControllerDelegate: AnyObject {
-    func reloadCList()
-
-}
-
 class DetailsViewController: UIViewController {
     @IBOutlet weak var firstNameLabel: UILabel!
     @IBOutlet weak var lastNameLabel: UILabel!
     @IBOutlet weak var contactImage: UIImageView!
     
-    weak var delegate: DetailsViewControllerDelegate?
     var currentPerson: Person?
     
     func updateLabels() {
@@ -45,8 +39,7 @@ class DetailsViewController: UIViewController {
                 return
             }
             self.appDelegate().removeContactOnServer(serverId: Int(id))
-            self.delegate?.reloadCList()
- 
+            self.navigationController?.popViewController(animated: true)
         }
         deleteAlertController.addAction(OKAction)
         

@@ -8,19 +8,13 @@
 
 import UIKit
 
-protocol AddViewControllerDelegate: AnyObject {
-    func reloadContactList()
-}
-
 class AddViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     
     @IBOutlet weak var completionProgressBar: UIProgressView!
     
-    weak var delegate: AddViewControllerDelegate?
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +43,7 @@ class AddViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.appDelegate().putContactOnServer(firstName: newContactFirstName, lastName: newContactLastName, avatarURL: "https://www.wanimo.com/veterinaire/images/articles/chat/chaton-diarrhee.jpg")
-                self.delegate?.reloadContactList()
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

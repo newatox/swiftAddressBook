@@ -90,7 +90,6 @@ class ContactsTableViewController: UITableViewController {
     @objc func addContactPress() {
         let addViewController = AddViewController(nibName: nil, bundle: nil)
         addViewController.title = "Add User"
-        addViewController.delegate = self
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
     
@@ -101,8 +100,6 @@ class ContactsTableViewController: UITableViewController {
             fatalError("Attempt to configure cell without a managed object")
         }
         detailsViewController.currentPerson = object
-
-        detailsViewController.delegate = self
         self.navigationController?.pushViewController(detailsViewController, animated: true)
     }
 
@@ -198,18 +195,6 @@ class ContactsTableViewController: UITableViewController {
     }
     */
 
-}
-
-extension ContactsTableViewController: AddViewControllerDelegate {
-    func reloadContactList() {
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
-extension ContactsTableViewController: DetailsViewControllerDelegate {
-    func reloadCList() {
-        self.navigationController?.popViewController(animated: true)
-    }
 }
 
 extension ContactsTableViewController: NSFetchedResultsControllerDelegate {

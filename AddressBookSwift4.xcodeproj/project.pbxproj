@@ -16,6 +16,7 @@
 		5101DA671FA07FE000199E90 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */; };
 		510223B71FA3664C0041DDAC /* UIImageViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510223B61FA3664C0041DDAC /* UIImageViewUtils.swift */; };
 		510223BA1FA37B4A0041DDAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5101DA3B1FA07ED200199E90 /* Assets.xcassets */; };
+		510223BE1FA385220041DDAC /* noImage.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 510223BD1FA385210041DDAC /* noImage.jpeg */; };
 		51DB66D61FA1CD0F0075DE15 /* UserDefaultsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DB66D51FA1CD0F0075DE15 /* UserDefaultsUtils.swift */; };
 		51DB66D81FA20AB90075DE15 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DB66D71FA20AB90075DE15 /* Person.swift */; };
 		51EFD1391FA081C6006D4A22 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD1381FA081C6006D4A22 /* ContactTableViewCell.swift */; };
@@ -59,6 +60,7 @@
 		5101DA561FA07ED200199E90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		510223B61FA3664C0041DDAC /* UIImageViewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewUtils.swift; sourceTree = "<group>"; };
+		510223BD1FA385210041DDAC /* noImage.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noImage.jpeg; sourceTree = "<group>"; };
 		51DB66D51FA1CD0F0075DE15 /* UserDefaultsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUtils.swift; sourceTree = "<group>"; };
 		51DB66D71FA20AB90075DE15 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		51EFD1381FA081C6006D4A22 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				5101DA311FA07ED100199E90 /* AppDelegate.swift */,
 				5101DA351FA07ED200199E90 /* Main.storyboard */,
 				5101DA3B1FA07ED200199E90 /* Assets.xcassets */,
+				510223BD1FA385210041DDAC /* noImage.jpeg */,
 				5101DA661FA07FE000199E90 /* ContactsTableViewController.swift */,
 				51DB66D71FA20AB90075DE15 /* Person.swift */,
 				510223B61FA3664C0041DDAC /* UIImageViewUtils.swift */,
@@ -268,6 +271,7 @@
 				51EFD13D1FA08ED5006D4A22 /* AddViewController.xib in Resources */,
 				510223BA1FA37B4A0041DDAC /* Assets.xcassets in Resources */,
 				5101DA371FA07ED200199E90 /* Main.storyboard in Resources */,
+				510223BE1FA385220041DDAC /* noImage.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
