@@ -35,14 +35,20 @@ class DetailsViewController: UIViewController {
         }
         deleteAlertController.addAction(cancelAction)
         let OKAction = UIAlertAction(title: "OK", style: .default) { _ in
+            /*
             let context = self.appDelegate().persistentContainer.viewContext
             guard let personToDelete = self.currentPerson else {
                 return
             }
             context.delete(personToDelete)
             try? context.save()
+             */
+            guard let id = self.currentPerson?.id else {
+                return
+            }
+            self.appDelegate().removeContactOnServer(serverId: Int(id))
             self.delegate?.reloadCList()
-            
+ 
         }
         deleteAlertController.addAction(OKAction)
         

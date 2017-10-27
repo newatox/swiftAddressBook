@@ -48,16 +48,7 @@ class AddViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                let context = self.appDelegate().persistentContainer.viewContext
-                let person = Person(entity: Person.entity(), insertInto: context)
-                person.firstName = newContactFirstName
-                person.lastName = newContactLastName
-                
-                do {
-                    try context.save()
-                } catch {
-                    print(error.localizedDescription)
-                }
+                self.appDelegate().putContactOnServer(firstName: newContactFirstName, lastName: newContactLastName, avatarURL: "https://www.wanimo.com/veterinaire/images/articles/chat/chaton-diarrhee.jpg")
                 self.delegate?.reloadContactList()
             }
         }

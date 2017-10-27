@@ -78,26 +78,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error)
         }
     }
-/*
-    func putContactOnServer(person: Person) {
+
+    func putContactOnServer(firstName: String, lastName: String, avatarURL: String) {
         let url = URL(string: sourceURL)!
         var request = URLRequest(url: url)
-        let jsonPerson: [String : Any]
-        jsonPerson["lastname"] = person.lastName
-        jsonPerson["surname"] = person.firstName
-        //jsonPerson["pictureUrl"] = person.avatarURL
-        //jsonPerson["id"] = Int(person.id)
+        let jsonPerson: [String : String] = ["lastname": lastName, "surname": firstName, "pictureUrl": avatarURL]
+        let context = self.persistentContainer.viewContext
         request.httpMethod = "POST"
-        request.httpBody = try! JSONSerialization.data(withJSONObject: jsonPerson, options: .prettyPrinted)
-        request.setValue("application.json", forHTTPHeaderField: "Content-type")
-        let task = URLSession.shared.dataTask(with: request) {
+        request.httpBody = try? JSONSerialization.data(withJSONObject: jsonPerson, options: .prettyPrinted)
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data else {
+                return
+            }
+            let jsonDict = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any]
+            guard let dict = jsonDict as? [String : Any] else {
+                return
+            }
+            
+            let person = Person(entity: Person.entity(), insertInto: context)
+            person.lastName = dict["lastname"] as? String
+            person.firstName = dict["surname"] as? String
+            person.avatarURL = dict["pictureUrl"] as? String
+            person.id = Int32(dict["id"] as? Int ?? 0)
+            
             do {
-                let requestJson = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-                
+                try context.save()
+            } catch {
+                print(error)
             }
         }
-     }
-*/
+        task.resume()
+    }
+    
+    
+    func removeContactOnServer(serverId: Int) {
+        let url = URL(string: sourceURL + "/\(serverId)")!
+        var request = URLRequest(url: url)
+        let context = self.persistentContainer.viewContext
+        
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                print("statusCode: \(httpResponse.statusCode)")
+                if httpResponse.statusCode != 200 {
+                    return
+                }
+            }
+            
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        }
+        task.resume()
+        
+    }
+ 
+
         
     
 
