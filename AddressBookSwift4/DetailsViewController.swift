@@ -16,6 +16,7 @@ protocol DetailsViewControllerDelegate: AnyObject {
 class DetailsViewController: UIViewController {
     @IBOutlet weak var firstNameLabel: UILabel!
     @IBOutlet weak var lastNameLabel: UILabel!
+    @IBOutlet weak var contactImage: UIImageView!
     
     weak var delegate: DetailsViewControllerDelegate?
     var currentPerson: Person?
@@ -26,6 +27,11 @@ class DetailsViewController: UIViewController {
         }
         firstNameLabel.text = person.firstName
         lastNameLabel.text = person.lastName
+        guard let avatarURL = person.avatarURL else {
+            return
+        }
+        contactImage.downloadImage(url: avatarURL)
+        contactImage.contentMode = UIViewContentMode.scaleAspectFit
     }
     
     @objc func deleteContact() {
@@ -35,14 +41,6 @@ class DetailsViewController: UIViewController {
         }
         deleteAlertController.addAction(cancelAction)
         let OKAction = UIAlertAction(title: "OK", style: .default) { _ in
-            /*
-            let context = self.appDelegate().persistentContainer.viewContext
-            guard let personToDelete = self.currentPerson else {
-                return
-            }
-            context.delete(personToDelete)
-            try? context.save()
-             */
             guard let id = self.currentPerson?.id else {
                 return
             }
@@ -59,7 +57,6 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         updateLabels()
         let deleteContact = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.deleteContact))

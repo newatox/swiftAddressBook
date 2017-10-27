@@ -10,25 +10,12 @@ import UIKit
 import CoreData
 
 class ContactsTableViewController: UITableViewController {
-    //var persons = [Person]()
     var resultController: NSFetchedResultsController<Person>?
     
     /*
-    func reloadDataFromDataBase() {
-        let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
-        let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
-        let sortLastName = NSSortDescriptor(key: "lastName", ascending: true)
-        fetchRequest.sortDescriptors = [sortFirstName, sortLastName]
-        
-        let context = self.appDelegate().persistentContainer.viewContext
-        guard let personsList = try? context.fetch(fetchRequest) else {
-            return
-        }
-        persons = personsList
-        self.tableView.reloadData()
-    }
-    */
-    
+     Old method. Updates the  contact list with values from
+     names.plist
+     */
     func addFromPlist() {
         //Import names from plist
         let namesPlist = Bundle.main.path(forResource: "names.plist", ofType: nil)
@@ -48,7 +35,6 @@ class ContactsTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     }
                 }
-                //reloadDataFromDataBase()
             }
         }
     }
@@ -56,7 +42,6 @@ class ContactsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         appDelegate().updateDataFromServer()
-    
     }
     
     override func viewDidLoad() {
@@ -73,6 +58,8 @@ class ContactsTableViewController: UITableViewController {
             }
         }
         UserDefaults.standard.userSawWelcomeMessage()
+        
+        //Set up FetchedResultsController for automatic updating of the list view
         let fetchRequest = NSFetchRequest<Person>(entityName: "Person")
         let sortFirstName = NSSortDescriptor(key: "firstName", ascending: true)
         let sortLastName = NSSortDescriptor(key: "lastName", ascending: true)
@@ -80,14 +67,10 @@ class ContactsTableViewController: UITableViewController {
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.appDelegate().persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        
         frc.delegate = self
-        
         try? frc.performFetch()
-        
         self.resultController = frc
         
-        //reloadDataFromDataBase()
         self.title = "Contacts"
 
         //self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
@@ -98,20 +81,12 @@ class ContactsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
+        // AddButton
         let addContact = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addContactPress))
         self.navigationItem.rightBarButtonItem = addContact
-        
-        /*
-        let dataURL = URL(string: appDelegate().sourceURL)
-        let task = URLSession.shared.dataTask(with: dataURL!) {(data, response, error) in
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue) as Any)
-        }
-        task.resume()
-        */
-        
-        
     }
     
+
     @objc func addContactPress() {
         let addViewController = AddViewController(nibName: nil, bundle: nil)
         addViewController.title = "Add User"
@@ -122,7 +97,6 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsViewController = DetailsViewController(nibName: nil, bundle: nil)
         detailsViewController.title = "Details"
-        //detailsViewController.currentPerson = persons[indexPath.row]
         guard let object = self.resultController?.object(at: indexPath) else {
             fatalError("Attempt to configure cell without a managed object")
         }
@@ -229,14 +203,12 @@ class ContactsTableViewController: UITableViewController {
 extension ContactsTableViewController: AddViewControllerDelegate {
     func reloadContactList() {
         self.navigationController?.popViewController(animated: true)
-        //reloadDataFromDataBase()
     }
 }
 
 extension ContactsTableViewController: DetailsViewControllerDelegate {
     func reloadCList() {
         self.navigationController?.popViewController(animated: true)
-        //reloadDataFromDataBase()
     }
 }
 
